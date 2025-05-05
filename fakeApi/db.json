@@ -1,0 +1,207 @@
+{
+  "device": [
+    {
+      "id": "device001",
+      "identifier": "temp_sensor_01",
+      "description": "Sensor de temperatura e umidade para ambientes internos",
+      "manufacturer": "ClimaTech",
+      "url": "http://192.168.1.100:8080",
+      "commands": [
+        {
+          "operation": "getTemperature",
+          "description": "Obtém a temperatura atual do ambiente em graus Celsius",
+          "command": {
+            "command": "0x01",
+            "parameters": [
+              {
+                "name": "unit",
+                "description": "Unidade de medida (C para Celsius, F para Fahrenheit)"
+              }
+            ]
+          },
+          "result": "Valor numérico representando a temperatura",
+          "format": "{ \"temperature\": { \"type\": \"number\" }, \"unit\": { \"type\": \"string\" } }"
+        },
+        {
+          "operation": "getHumidity",
+          "description": "Obtém a umidade relativa do ar em percentual",
+          "command": {
+            "command": "0x02",
+            "parameters": []
+          },
+          "result": "Valor percentual da umidade do ar",
+          "format": "{ \"humidity\": { \"type\": \"number\" }, \"unit\": { \"type\": \"string\", \"enum\": [\"%\"] } }"
+        }
+      ]
+    },
+    {
+      "id": "device002",
+      "identifier": "smart_lamp_01",
+      "description": "Lâmpada inteligente com controle de intensidade e cor",
+      "manufacturer": "LightWave",
+      "url": "http://192.168.1.101:8080",
+      "commands": [
+        {
+          "operation": "setPower",
+          "description": "Liga ou desliga a lâmpada",
+          "command": {
+            "command": "0x10",
+            "parameters": [
+              {
+                "name": "state",
+                "description": "Estado da lâmpada (on ou off)"
+              }
+            ]
+          },
+          "result": "Status da operação",
+          "format": "{ \"status\": { \"type\": \"string\", \"enum\": [\"success\", \"error\"] }, \"message\": { \"type\": \"string\" } }"
+        },
+        {
+          "operation": "setBrightness",
+          "description": "Ajusta a intensidade da luz",
+          "command": {
+            "command": "0x11",
+            "parameters": [
+              {
+                "name": "level",
+                "description": "Nível de brilho (0-100)"
+              }
+            ]
+          },
+          "result": "Status da operação",
+          "format": "{ \"status\": { \"type\": \"string\", \"enum\": [\"success\", \"error\"] }, \"message\": { \"type\": \"string\" } }"
+        },
+        {
+          "operation": "setColor",
+          "description": "Ajusta a cor da luz",
+          "command": {
+            "command": "0x12",
+            "parameters": [
+              {
+                "name": "red",
+                "description": "Componente vermelho (0-255)"
+              },
+              {
+                "name": "green",
+                "description": "Componente verde (0-255)"
+              },
+              {
+                "name": "blue",
+                "description": "Componente azul (0-255)"
+              }
+            ]
+          },
+          "result": "Status da operação",
+          "format": "{ \"status\": { \"type\": \"string\", \"enum\": [\"success\", \"error\"] }, \"message\": { \"type\": \"string\" } }"
+        }
+      ]
+    },
+    {
+      "id": "device003",
+      "identifier": "motion_sensor_01",
+      "description": "Sensor de movimento para detecção de presença",
+      "manufacturer": "SecureTech",
+      "url": "http://192.168.1.102:8080",
+      "commands": [
+        {
+          "operation": "getStatus",
+          "description": "Verifica o status atual do sensor",
+          "command": {
+            "command": "0x20",
+            "parameters": []
+          },
+          "result": "Estado de detecção e bateria",
+          "format": "{ \"motion_detected\": { \"type\": \"boolean\" }, \"battery_level\": { \"type\": \"number\" } }"
+        },
+        {
+          "operation": "setSensitivity",
+          "description": "Ajusta a sensibilidade do detector de movimento",
+          "command": {
+            "command": "0x21",
+            "parameters": [
+              {
+                "name": "level",
+                "description": "Nível de sensibilidade (1-10)"
+              }
+            ]
+          },
+          "result": "Status da operação",
+          "format": "{ \"status\": { \"type\": \"string\", \"enum\": [\"success\", \"error\"] }, \"message\": { \"type\": \"string\" } }"
+        }
+      ]
+    },
+    {
+      "id": "device004",
+      "identifier": "weather_station_01",
+      "description": "Estação meteorológica completa com sensores de temperatura, umidade, pressão e velocidade do vento",
+      "manufacturer": "WeatherTech",
+      "url": "http://192.168.1.103:8080",
+      "commands": [
+        {
+          "operation": "getCurrentWeather",
+          "description": "Obtém todas as informações meteorológicas atuais",
+          "command": {
+            "command": "0x30",
+            "parameters": []
+          },
+          "result": "Conjunto completo de dados meteorológicos",
+          "format": "{ \"temperature\": { \"type\": \"number\" }, \"humidity\": { \"type\": \"number\" }, \"pressure\": { \"type\": \"number\" }, \"wind_speed\": { \"type\": \"number\" }, \"wind_direction\": { \"type\": \"string\" } }"
+        },
+        {
+          "operation": "getForecast",
+          "description": "Obtém previsão do tempo para as próximas horas",
+          "command": {
+            "command": "0x31",
+            "parameters": [
+              {
+                "name": "hours",
+                "description": "Número de horas para previsão (1-24)"
+              }
+            ]
+          },
+          "result": "Previsão de dados meteorológicos",
+          "format": "{ \"forecast\": { \"type\": \"array\", \"items\": { \"type\": \"object\", \"properties\": { \"time\": { \"type\": \"string\" }, \"temperature\": { \"type\": \"number\" }, \"humidity\": { \"type\": \"number\" }, \"pressure\": { \"type\": \"number\" }, \"wind_speed\": { \"type\": \"number\" }, \"description\": { \"type\": \"string\" } } } } }"
+        }
+      ]
+    },
+    {
+      "id": "device005",
+      "identifier": "plant_monitor_01",
+      "description": "Monitor de plantas que verifica umidade do solo, luminosidade e saúde da planta",
+      "manufacturer": "GreenSense",
+      "url": "http://192.168.1.104:8080",
+      "commands": [
+        {
+          "operation": "getSoilMoisture",
+          "description": "Obtém o nível de umidade do solo",
+          "command": {
+            "command": "0x40",
+            "parameters": []
+          },
+          "result": "Valor percentual da umidade do solo",
+          "format": "{ \"moisture\": { \"type\": \"number\" }, \"status\": { \"type\": \"string\", \"enum\": [\"too_dry\", \"optimal\", \"too_wet\"] } }"
+        },
+        {
+          "operation": "getLightLevel",
+          "description": "Obtém o nível de luminosidade",
+          "command": {
+            "command": "0x41",
+            "parameters": []
+          },
+          "result": "Nível de luminosidade em lux",
+          "format": "{ \"light_level\": { \"type\": \"number\" }, \"unit\": { \"type\": \"string\", \"enum\": [\"lux\"] }, \"status\": { \"type\": \"string\", \"enum\": [\"too_dark\", \"optimal\", \"too_bright\"] } }"
+        },
+        {
+          "operation": "getNutrientLevel",
+          "description": "Obtém o nível de nutrientes no solo",
+          "command": {
+            "command": "0x42",
+            "parameters": []
+          },
+          "result": "Nível de nutrientes no solo",
+          "format": "{ \"nutrient_level\": { \"type\": \"number\" }, \"status\": { \"type\": \"string\", \"enum\": [\"deficient\", \"normal\", \"excessive\"] } }"
+        }
+      ]
+    }
+  ]
+}
