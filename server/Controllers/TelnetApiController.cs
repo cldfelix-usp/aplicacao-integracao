@@ -6,7 +6,7 @@ using Server.Services;
 namespace Server.Controllers;
 
 [ApiController]
-[Route("api/telnetapi")]
+[Route("api/v1/telnetapi")]
 public class TelnetApiController : ControllerBase
 {
     private readonly ITelnetApiService _telnetService;

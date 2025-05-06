@@ -97,6 +97,38 @@ builder.Services.AddSingleton<IDeviceManager, DeviceManager>();
 //             });
             
 
+// add cors
+
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", 
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+        
+    options.AddPolicy("AllowAll", 
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+        
+    options.AddPolicy("Production", 
+        policy =>
+        {
+            policy.WithOrigins("https://seu-site-producao.com",
+                    "https://outro-site-permitido.com")
+                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithHeaders("Authorization", "Content-Type")
+                .AllowCredentials();
+        });
+});
 
 // Adicionar Controllers
 builder.Services.AddControllers();
@@ -117,7 +149,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAngularApp");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
