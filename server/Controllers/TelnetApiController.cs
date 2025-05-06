@@ -6,7 +6,7 @@ using Server.Services;
 namespace Server.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/telnetapi")]
 public class TelnetApiController : ControllerBase
 {
     private readonly ITelnetApiService _telnetService;
@@ -26,25 +26,26 @@ public class TelnetApiController : ControllerBase
     /// <summary>
     /// Obtém a lista de dispositivos disponíveis
     /// </summary>
-    [HttpGet("devices")]
-    public ActionResult<List<DeviceDto>> GetDevices()
+    [HttpGet("devicesasync")]
+    public async Task<ActionResult> GetDevices()
     {
-        var devices = _deviceManager.ListDevices();
-        return Ok(devices);
+        var devices = await _deviceManager.ListDevices();
+        return Ok( new ResultBaseDto<List<DeviceDto>>(devices));
     }
 
     /// <summary>
     /// Obtém os comandos disponíveis para um dispositivo
     /// </summary>
     [HttpGet("devices/{deviceName}/commands")]
-    public ActionResult<List<CommandDto>> GetDeviceCommands(
+    public async Task<ActionResult> GetDeviceCommands(
         string deviceName)
     {
-        var commands = _deviceManager.GetCommandByName(deviceName);
+        var commands = await _deviceManager.GetCommandByName(deviceName);
 
-       
+       if(!commands.Any())
+           return NotFound(new ResultBaseDto<List<CommandInfoDto>>("Device nao encontrado!"));
 
-        return Ok(commands);
+        return Ok( new ResultBaseDto<List<CommandInfoDto>>(commands));
     }
 
     /// <summary>

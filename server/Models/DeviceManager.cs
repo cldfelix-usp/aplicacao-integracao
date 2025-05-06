@@ -56,20 +56,20 @@ public class DeviceManager : IDeviceManager
             return device;
         }
         
-        public List<CommandInfo> GetCommandByName(string name)
+        public async Task<List<CommandInfoDto>> GetCommandByName(string name)
         {
             var device  = _devices.Find(d => d.Id.Equals(name, StringComparison.OrdinalIgnoreCase));
-            var comands  = _mapper.Map<List<CommandInfo>>(device.Commands);
+            var comands  = _mapper.Map<List<CommandInfoDto>>(device.Commands);
 
-            return comands;
+            return await Task.FromResult(comands);
         }
 
         /// <summary>
         /// Lista todos os dispositivos disponíveis
         /// </summary>
-        public List<DeviceDto> ListDevices()
+        public async Task<List<DeviceDto>> ListDevices()
         { 
-            return _mapper.Map< List<DeviceDto>>(_devices);
+            return await  Task.FromResult( _mapper.Map< List<DeviceDto>>(_devices));
         }
 
         /// <summary>
